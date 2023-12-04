@@ -1,0 +1,69 @@
+*{
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0 auto;
+    height: 100%;
+    font-family: 'poppins', sans-serif;
+    line-height: 1.4em;
+    font-size: 16px;
+    text-align: left;
+    clear: both;
+}
+
+.bg-background{
+    position: relative;
+    background-image: url("../imagens/white-banner.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;   
+}
+
+#container{
+    background-color: red; 
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+#header {
+    width: 100%;
+    height: 100px;
+}
+
+#menu{
+    width: 100%;
+    height: auto;
+}
+
+html{
+    height: auto;
+}
+
+#conteudo,main{
+    width: 100%;
+    padding: 10px;
+}
+
+html, body {
+     height: 100%;
+}
+
+body{
+    
+    min-height: 100%;
+    background-repeat: no-repeat;
+}
+
+main{
+    background-color: green; 
+    min-height: 100%;
+    height: auto;
+}

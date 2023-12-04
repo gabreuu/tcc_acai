@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="plugin1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/web/WEB-INF/classes/plugin/jstl-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/web/WEB-INF/classes/plugin/itextpdf-5.5.13.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/web/WEB-INF/classes/plugin/lombok.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/web/WEB-INF/classes/plugin/mysql-connector-java-8.0.30.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
