@@ -1,5 +1,6 @@
 package dao;
 
+import com.mysql.cj.xdevapi.Statement;
 import factory.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.Date;
@@ -76,6 +77,7 @@ public class VendaDAO {
             ClienteDAO cdao = new ClienteDAO();
             AtendimentoDAO adao = new AtendimentoDAO();
             UsuarioDAO udao = new UsuarioDAO();
+            ProdutoDAO pdao = new ProdutoDAO();
             
             venda.setIdVenda(rs.getInt("v.idVenda"));
             venda.setDataVenda(rs.getDate("v.dataVenda"));
@@ -88,6 +90,8 @@ public class VendaDAO {
             venda.setAtendimento(adao.getCarregarPorId(rs.getInt("a.idAtendimento")));
             // associação muitos para um entre entre venda e usuario respectivamente
             venda.setUsuario(udao.getCarregarPorId(rs.getInt("u.idUsuario")));
+            venda.setProdutos(pdao.getCarregarPorIdVenda(venda.getIdVenda()));
+            
         }
         ConexaoFactory.close(con);
         
@@ -96,12 +100,15 @@ public class VendaDAO {
     
     public boolean gravar(Venda venda)throws SQLException{ 
         con = ConexaoFactory.conectar();
-        
+
+        int lastInsertedId = 0;
+
+        //verifica se a venda é nova ou ediçõa
         if (venda.getIdVenda() == 0) {
             sql = "INSERT INTO venda (dataVenda, precoTotal, status, idCliente, idAtendimento, idUsuario) "+
                   "VALUES (?, ?, ?, ?, ?, ?)";
             
-            ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             
             ps.setDate(1, new Date(venda.getDataVenda().getTime()));
             ps.setDouble(2, venda.getPrecoTotal());
@@ -109,6 +116,13 @@ public class VendaDAO {
             ps.setInt(4, venda.getCliente().getIdCliente());
             ps.setInt(5, venda.getAtendimento().getIdAtendimento());
             ps.setInt(6, venda.getUsuario().getIdUsuario());
+            ps.executeUpdate();
+            //busca o ultimo id inserido caso seja novo
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next())
+            {
+                lastInsertedId = rs.getInt(1);
+            }
         } else {            
             sql = "UPDATE venda SET dataVenda = ?, precoTotal = ?, " +
                   "status = ?, idCliente = ?, idAtendimento = ?, idUsuario = ? " +
@@ -123,8 +137,29 @@ public class VendaDAO {
             ps.setInt(5, venda.getAtendimento().getIdAtendimento());
             ps.setInt(6, venda.getUsuario().getIdUsuario());
             ps.setInt(7, venda.getIdVenda());
+            ps.executeUpdate();
+            
+            sql = "DELETE FROM venda_produto WHERE idVenda = ?";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1,venda.getIdVenda());
+                ps.executeUpdate();
+
         }
-        ps.executeUpdate();
+        
+        for (Produto produto : venda.getProdutos()) {
+            
+            sql = "INSERT INTO venda_produto (idVenda, idProduto) VALUES (?, ?)";
+            ps = con.prepareStatement(sql);
+            //verifica se é novo e insere o id recuperado ou se edição insere o id da edição
+            if(lastInsertedId != 0 ){
+               ps.setInt(1,lastInsertedId); 
+            }else{
+               ps.setInt(1,venda.getIdVenda()); 
+            }
+            ps.setInt(2, produto.getIdProduto());
+            ps.executeUpdate();
+        }
+
         ConexaoFactory.close(con);
         
         return true;

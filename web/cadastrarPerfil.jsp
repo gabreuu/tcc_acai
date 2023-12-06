@@ -22,7 +22,7 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
                     <%
                         HttpSession sessao = request.getSession();
                         if (sessao.getAttribute("msg") != null) {
@@ -46,26 +46,33 @@
                         }
 
                     %>
-                    <div class="container">
-                        <form action="gerenciarPerfil?acao=cadastrar" method="post" class="form-group">
-                            <h3 class="text-center mt-5">Cadastro de Perfil</h3>
+                    <div id="conteudo">
+                        <form id="formLogin" action="gerenciarPerfil?acao=cadastrar" method="post" class="form-group border rounded mx-auto mt-5">
                             <input type="hidden" name="idPerfil" value="${perfil.idPerfil}">
+                            <c:choose>
+                                <c:when test="${perfil.idPerfil == NULL}">
+                                    <h3 class="text-center mt-2">Cadastro de Perfil</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3 class="text-center  mt-1">Alteração do Perfil ${perfil.nome}</h3>
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="form-group row mt-5 offset-md-2">
-                                <label class="col-md-3">Nome</label>
+                                <label class="col-md-2 offset-1">Nome<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="nome" value="${perfil.nome}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Data de Cadastro</label>
+                                <label class="col-md-2 offset-1">Data de Cadastro<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="date" name="dataCadastro" 
                                            class="form-control" value="${perfil.dataCadastro}">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Status</label>
+                                <label class="col-md-2 offset-1">Status<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
@@ -80,11 +87,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-md-flex justify-content-md-around mt-5 mr-5">
-                                <button class="btn btn-primary mr-3">Gravar</button>
+                               
+                            <div class="form-group row offset-md-2">
                                 <a href="gerenciarPerfil?acao=listar" 
-                                   class="btn  btn-warning" role="button">Voltar
-                                </a>
+                                       class="btn  btn-outline-danger form-control col-md-2 offset-1" role="button">Voltar
+                                    </a>
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary form-control col-md-12">Gravar</button>
+                                </div>
                             </div>
 
                         </form>

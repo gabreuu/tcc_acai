@@ -92,7 +92,7 @@ public class GerenciarUsuario extends HttpServlet {
         
         PrintWriter out = response.getWriter();
         String idUsuario = request.getParameter("idUsuario");
-       // Ajuste de caracteres especiais
+        // Ajuste de caracteres especiais
         String nome = Util.decode(request.getParameter("nome"));
         String login = Util.decode(request.getParameter("login"));
         String senha = Util.decode(request.getParameter("senha"));
@@ -101,6 +101,7 @@ public class GerenciarUsuario extends HttpServlet {
         String mensagem = "";
         HttpSession sessao = request.getSession();
 
+        // validações do lado do servidor e atribuição de valores.
         if (!idUsuario.isEmpty()) {
             try {
                 usuario.setIdUsuario(Integer.parseInt(idUsuario));
@@ -110,36 +111,65 @@ public class GerenciarUsuario extends HttpServlet {
         }
 
         if (nome.isEmpty() || nome.equals("")) {
-            sessao.setAttribute("msg", "Informe o nome do Usuario!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('É necessário informar o nome do Usuário.');"
+                + "location.href='cadastrarUsuario.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             usuario.setNome(nome);
         }
 
         if (login.isEmpty() || login.equals("")) {
-            sessao.setAttribute("msg", "Informe o Login do Usuário!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('Informe o login do usuário para prosseguir.');"
+                + "location.href='cadastrarUsuario.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             usuario.setLogin(login);
         }
         
         if (senha.isEmpty() || senha.equals("")) {
-            sessao.setAttribute("msg", "Informe a senha do Usuário!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('A senha do usuário deve ser informada.');"
+                + "location.href='cadastrarUsuario.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             try {
-                // precisamos comparar com as outras senhas do banco, pois não podem ser iguais.
                 usuario.setSenha(senha);
             } catch (NumberFormatException e) {
                 mensagem = "Error" + e.getMessage();
             }
         }
         
-        
+        if (status.isEmpty() || status.equals("")) {
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('O status do Usuário deve ser selecionado.');"
+                + "location.href='cadastrarUsuario.jsp';"
+                + "</script>"
+            );
+            return;
+        } else {
+            usuario.setStatus(Integer.parseInt(status));
+        }
         
         if (idPerfil.isEmpty() || idPerfil.equals("")) {
-            sessao.setAttribute("msg", "Informe o perfil do Usuário!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('Um Perfil deve ser associado ao Usuário. Por favor, selecione um Perfil.');"
+                + "location.href='cadastrarUsuario.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             Perfil perfil = new Perfil();
             try {
@@ -152,18 +182,11 @@ public class GerenciarUsuario extends HttpServlet {
             
         }
 
-        if (status.isEmpty() || status.equals("")) {
-            sessao.setAttribute("msg", "Informe o status do Usuário!");
-            exibirMensagem(request, response);
-        } else {
-            usuario.setStatus(Integer.parseInt(status));
-        }
-
         try {
             if (udao.gravar(usuario)) {
-                mensagem = "Usuário salvo na base de dados!";
+                mensagem = "O Usuário foi salvo na base de dados!";
             } else {
-                mensagem = "Falha ao salvar o usuário na base de dados!";
+                mensagem = "Falha ao salvar o Usuário na base de dados.";
             }
         } catch (SQLException e) {
             mensagem = "Error: " + e.getMessage();

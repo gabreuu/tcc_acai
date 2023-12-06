@@ -112,7 +112,6 @@ public class ProdutoDAO {
     }
     
     public ArrayList<Produto> getCarregarPorIdVenda(int idVenda) throws SQLException {
-        Produto produto = new Produto();      
 
         sql = "SELECT p.idProduto, p.nome, p.descricao, p.preco, p.status " +
               "FROM venda_produto vp inner join produto p on p.idProduto = vp.idProduto WHERE idVenda = ?";
@@ -124,7 +123,8 @@ public class ProdutoDAO {
         rs = ps.executeQuery();
 
         ArrayList<Produto> produtos = new ArrayList<>();
-        if (rs.next()) {
+        while (rs.next()) {
+            Produto produto = new Produto();      
             produto.setIdProduto(rs.getInt("idProduto"));
             produto.setNome(rs.getString("nome"));
             produto.setDescricao(rs.getString("descricao"));

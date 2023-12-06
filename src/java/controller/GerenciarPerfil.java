@@ -108,21 +108,35 @@ public class GerenciarPerfil extends HttpServlet {
         
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         
-        // validações do lado do servidor
-        if (!idPerfil.isEmpty()) {
-            p.setIdPerfil(Integer.parseInt(idPerfil));
+        // validações do lado do servidor e atribuição de valores.
+        if(!idPerfil.isEmpty()) {
+            try {
+                p.setIdPerfil(Integer.parseInt(idPerfil));
+            } catch (NumberFormatException e) {
+                mensagem = "Error" + e.getMessage();
+            }
         }
         
         if (nome.isEmpty() || nome.equals("")) {
-            sessao.setAttribute("msg", "Informe o nome do Perfil!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('É necessário informar o nome do Perfil.');"
+                + "location.href='cadastrarPerfil.jsp';"
+                + "</script>"
+            );
+            return;
         }else{
             p.setNome(nome);
         }
         
         if (dataCadastro.isEmpty() || dataCadastro.equals("")) {
-            sessao.setAttribute("msg", "Informe a data de Cadastro!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('A data de cadastro deve ser informada.');"
+                + "location.href='cadastrarPerfil.jsp';"
+                + "</script>"
+            );
+            return;
         }else{
             try {
                 p.setDataCadastro(df.parse(dataCadastro));
@@ -134,17 +148,22 @@ public class GerenciarPerfil extends HttpServlet {
         }
         
         if (status.isEmpty() || status.equals("")) {
-            sessao.setAttribute("msg", "Informe o status do Perfil!");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('O status do Perfil deve ser selecionado.');"
+                + "location.href='cadastrarPerfil.jsp';"
+                + "</script>"
+            );
+            return;
         }else{
             p.setStatus(Integer.parseInt(status));
         }
         
         try {
             if (pdao.gravar(p)) {
-                mensagem = "Perfil salvo na base de dados!";
+                mensagem = "O Perfil foi salvo na base de dados!";
             } else {
-                mensagem = "Falha ao salvar o perfil na base de dados!";
+                mensagem = "Falha ao salvar o Perfil na base de dados.";
             }
         } catch (SQLException e) {
             mensagem = "Error: " + e.getMessage();
@@ -160,8 +179,7 @@ public class GerenciarPerfil extends HttpServlet {
         
     }
 
-    private void exibirMensagem(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-            
+    private void exibirMensagem(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{        
             RequestDispatcher dispatcher = getServletContext().
                     getRequestDispatcher("/cadastrarPerfil.jsp");
             dispatcher.forward(request, response);

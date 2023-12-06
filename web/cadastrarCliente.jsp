@@ -23,7 +23,7 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
                     <%
                         HttpSession sessao = request.getSession();
                         if (sessao.getAttribute("msg") != null) {
@@ -47,36 +47,48 @@
 
                     %>
                     <div class="container">
-                        <form action="gerenciarCliente?acao=cadastrar" method="post" class="form-group">
-                            <h3 class="text-center mt-5">Cadastro de Cliente</h3>
+                        <form id="formLogin" action="gerenciarCliente?acao=cadastrar" method="post" class="form-group border rounded mx-auto mt-5">
                             <input type="hidden" name="idCliente" value="${cliente.idCliente}">
+                            <c:choose>
+                                <c:when test="${cliente.idCliente == NULL}">
+                                    <h3 class="text-center mt-2">Cadastro de Cliente</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3 class="text-center  mt-2">Alteração de Cliente : ${cliente.nome}</h3>
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="form-group row mt-5 offset-md-2">
-                                <label class="col-md-3">Nome do Cliente</label>
+                                <label class="col-md-2 offset-1">Nome do Cliente<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="nome" value="${cliente.nome}" class="form-control">
                                 </div>
-                            </div>      
+                            </div>  
+                                
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">CPF</label>
+                                <label class="col-md-2 offset-1">CPF</label>
                                 <div class="col-md-5">
                                     <input type="text" name="cpf" value="${cliente.cpf}" class="form-control"  maxlength="14" onkeyup="mascaraCPF(this)">
                                 </div>
                             </div> 
+                                
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Endereço</label>
+                                <label class="col-md-2 offset-1">Endereço</label>
                                 <div class="col-md-5">
                                     <input type="text" name="endereco" value="${cliente.endereco}" class="form-control">
                                 </div>
                             </div>
+                                
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Telefone</label>
+                                <label class="col-md-2 offset-1">Telefone</label>
                                 <div class="col-md-5">
-                                    <input type="text" name="telefone" value="${cliente.telefone}" class="form-control">
-                                </div>
+                                <!-- Cria um campo de entrada de texto para o telefone do cliente -->
+                                <input type="text" name="telefone" value="${cliente.telefone}" onkeyup="mascaraTelefone(this)" maxlength="15" class="form-control">
+                              </div>
                             </div>
+                              
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Status</label>
+                                <label class="col-md-2 offset-1">Status<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
@@ -91,14 +103,17 @@
                                     </select>
                                 </div>
                             </div>
-                            
-                            <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                                <button class="btn btn-primary mr-3">Gravar</button>
+                              
+                            <div class="form-group row offset-md-2">
                                 <a href="gerenciarCliente?acao=listar" 
-                                   class="btn  btn-warning" role="button">Voltar
-                                </a>
+                                       class="btn  btn-outline-danger form-control col-md-2 offset-1" role="button">Voltar
+                                    </a>
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary form-control col-md-12">Gravar</button>
+                                </div>
                             </div>
                         </form>
+                    </div>
                     </div>
                 </div><!-- Fim da div conteudo -->
             </main>

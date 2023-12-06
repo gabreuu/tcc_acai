@@ -31,10 +31,11 @@
 
                 <!-- ??? -->
                 <main>
-                    <div id="conteudo" class="bg-background">
-                        <img src="<%= request.getContextPath()%>/imagens/fundo.svg" width="100%" height="100%" alt="imagem do Banner"/>
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
+                        <div id="formLogin" class="container border rounded mx-auto mt-5">
+                        </div>
                 </div><!-- Fim div conteudo -->
-            </main><!-- Fim div conteudo -->
+            </main>
         </div><!-- Fim div container -->
 
     </body>

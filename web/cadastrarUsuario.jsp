@@ -23,7 +23,7 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
                     <%
                         HttpSession sessao = request.getSession();
                         if (sessao.getAttribute("msg") != null) {
@@ -47,32 +47,39 @@
 
                     %>
                     <div class="container">
-                        <form action="gerenciarUsuario?acao=cadastrar" method="post" class="form-group">
-                            <h3 class="text-center mt-5">Cadastro de Usuário</h3>
+                        <form id="formLogin" action="gerenciarUsuario?acao=cadastrar" method="post" class="form-group border rounded mx-auto mt-5">
                             <input type="hidden" name="idUsuario" value="${usuario.idUsuario}">
+                            <c:choose>
+                                <c:when test="${usuario.idUsuario == NULL}">
+                                    <h3 class="text-center mt-2">Cadastro de Usuário</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3 class="text-center  mt-2">Alteração do Usuário ${usuario.nome}</h3>
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="form-group row mt-5 offset-md-2">
-                                <label class="col-md-3">Nome</label>
+                                <label class="col-md-2 offset-1">Nome<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="nome" value="${usuario.nome}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Login</label>
+                                <label class="col-md-2 offset-1">Login<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="login" value="${usuario.login}" 
                                            class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Senha</label>
+                                <label class="col-md-2 offset-1">Senha<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="password" name="senha" value="${usuario.senha}"
                                            class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Status</label>
+                                <label class="col-md-2 offset-1">Status<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
@@ -89,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Perfil</label>
+                                <label class="col-md-2 offset-1">Perfil<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="idPerfil">
                                         <option value="">Escolha uma opção</option>
@@ -104,11 +111,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                                <button class="btn btn-primary mr-3">Gravar</button>
+                            <div class="form-group row offset-md-2">
                                 <a href="gerenciarUsuario?acao=listar" 
-                                   class="btn  btn-warning" role="button">Voltar
-                                </a>
+                                       class="btn  btn-outline-danger form-control col-md-2 offset-1" role="button">Voltar
+                                    </a>
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary form-control col-md-12">Gravar</button>
+                                </div>
                             </div>
                         </form>
 

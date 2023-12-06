@@ -23,7 +23,7 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
                     <%
                         HttpSession sessao = request.getSession();
                         if (sessao.getAttribute("msg") != null) {
@@ -43,25 +43,32 @@
                             sessao.removeAttribute("msg");
                         }
                     %>
-                    <div class="container">
-                        <form action="gerenciarMenu?acao=cadastrar" method="post" class="form-group">
-                            <h3 class="text-center  mt-5">Cadastro de Menu</h3>
+                    <div id="conteudo">
+                        <form id="formLogin" action="gerenciarMenu?acao=cadastrar" method="post" class="form-group border rounded mx-auto mt-5">
                             <input type="hidden" name="idMenu" value="${menu.idMenu}">
+                            <c:choose>
+                                <c:when test="${menu.idMenu == NULL}">
+                                    <h3 class="text-center  mt-1">Cadastro de Menu</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3 class="text-center  mt-1">Alteração do Menu ${menu.nome}</h3>
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="form-group row mt-5 offset-md-2">
-                                <label class="col-md-3">Nome<sup class="text-danger">*</sup></label>
+                                <label class="col-md-2 offset-1">Nome<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="nome" value="${menu.nome}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Link<sup class="text-danger">*</sup></label>
+                                <label class="col-md-2 offset-1">Link<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="link" value="${menu.link}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Exibir<sup class="text-danger">*</sup></label>
+                                <label class="col-md-2 offset-1">Exibir<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="exibir">
                                         <option value="">Escolha uma opção</option>
@@ -78,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Status<sup class="text-danger">*</sup></label>
+                                <label class="col-md-2 offset-1">Status<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
@@ -91,14 +98,17 @@
                                                     selected
                                                 </c:if>>Desativado</option>
                                     </select>
-
                                 </div>
                             </div>
-                            <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                                <button class="btn btn-primary mr-3">Gravar</button>
+                                
+                            <div class="form-group row offset-md-2">
+                                
                                 <a href="gerenciarMenu?acao=listar" 
-                                   class="btn  btn-warning" role="button">Voltar
-                                </a>
+                                       class="btn  btn-outline-danger form-control col-md-2 offset-1" role="button">Voltar
+                                    </a>
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary form-control col-md-12">Gravar</button>
+                                </div>
                             </div>
 
                         </form>

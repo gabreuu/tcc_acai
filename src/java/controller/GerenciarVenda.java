@@ -27,13 +27,14 @@ import model.Produto;
 import util.Util;
 
 @WebServlet(name = "GerenciarVenda", urlPatterns = {"/gerenciarVenda"})
-public class GerenciarVenda extends HttpServlet {    
+public class GerenciarVenda extends HttpServlet {
+
     VendaDAO vdao = null;
     Cliente cliente = null;
     Atendimento atendimento = null;
     Usuario usuario = null;
     Venda venda = null;
-    
+
     RequestDispatcher dispatcher = null;
 
     @Override
@@ -44,12 +45,12 @@ public class GerenciarVenda extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         String acao = request.getParameter("acao");
-        
+
         String idVenda = request.getParameter("idVenda");
         request.getSession().removeAttribute("produtos");
-                request.getSession().removeAttribute("venda");
+        request.getSession().removeAttribute("venda");
         String mensagem = "";
-        
+
         venda = new Venda();
         vdao = new VendaDAO();
 
@@ -63,9 +64,9 @@ public class GerenciarVenda extends HttpServlet {
                 request.setAttribute("vendas", vendas);
                 dispatcher.forward(request, response);
             } else if (acao.equals("alterar")) {
-                
+
                 venda = vdao.getCarregarPorId(Integer.parseInt(idVenda));
-                if (venda.getIdVenda()> 0) {
+                if (venda.getIdVenda() > 0) {
                     dispatcher = getServletContext()
                             .getRequestDispatcher("/cadastrarVenda.jsp");
                     request.setAttribute("venda", venda);
@@ -91,10 +92,10 @@ public class GerenciarVenda extends HttpServlet {
                 response.sendRedirect("index.jsp");
             }
         } catch (SQLException e) {
-            mensagem = "Error: "+e.getMessage();
+            mensagem = "Error: " + e.getMessage();
             e.printStackTrace();
         }
-        
+
         out.println(
                 "<script type='text/javascript'>"
                 + "alert('" + mensagem + "');"
@@ -105,51 +106,83 @@ public class GerenciarVenda extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Venda venda;
-        PrintWriter out = response.getWriter();
-        if(request.getSession().getAttribute("venda")!=null){
-            venda = (Venda) request.getSession().getAttribute("venda");
-        }else{
-            venda = new Venda();
-        }
-        ArrayList<Produto> produtos ;
-        if(request.getSession().getAttribute("produtos")!=null){
-            produtos = (ArrayList<Produto>) request.getSession().getAttribute("produtos");
-            for (Produto produto : produtos) {
-                venda.setPrecoTotal(venda.getPrecoTotal()+produto.getPreco());
-            }
-        }else{
-            produtos = new ArrayList<>();
-        }
-        venda.setProdutos(produtos);
-        String mensagem = "";
-        HttpSession sessao = request.getSession();
+
         try {
-            if (vdao.gravar(venda)) {
-                mensagem = "Venda salva na base de dados!";
+            Produto p = new Produto();
+            ProdutoDAO pdao = new ProdutoDAO();
+            AtendimentoDAO adao = new AtendimentoDAO();
+            UsuarioDAO udao = new UsuarioDAO();
+            ClienteDAO cdao = new ClienteDAO();
+            PrintWriter out = response.getWriter();
+            Venda venda = new Venda();
+            
+            venda.setIdVenda(Integer.parseInt(request.getParameter("idVenda")));
+            // Ajuste de caracteres especiais
+            venda.setDataVenda(Util.stringToDate(request.getParameter("dataVenda")));
+            venda.setStatus(Integer.parseInt(request.getParameter("status")));
+            venda.setUsuario(udao.getCarregarPorId(Integer.parseInt(request.getParameter("idUsuario"))));
+            venda.setCliente(cdao.getCarregarPorId(Integer.parseInt(request.getParameter("idCliente"))));
+            venda.setAtendimento(adao.getCarregarPorId(Integer.parseInt(request.getParameter("idAtendimento"))));
+            
+            response.setContentType("text/html");
+            
+            ArrayList<Produto> produtos;
+            //verifica se há produtos vindo da pagina (alteração) se não tiver busca os produtos originalmente salvos
+            if (request.getSession().getAttribute("produtos") != null) {
+                produtos = (ArrayList<Produto>) request.getSession().getAttribute("produtos");
+                
             } else {
-                mensagem = "Falha ao salvar a venda na base de dados.";
+                produtos = pdao.getCarregarPorIdVenda(venda.getIdVenda());
+                
             }
-        } catch (SQLException e) {
-            mensagem = "Error: " + e.getMessage();
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        out.println(
-                "<script type='text/javascript'>"
-                        + "alert('" + mensagem + "');"
-                                + "location.href='gerenciarVenda?acao=listar';"
+            //calcula o valor total da venda
+            for (Produto produto : produtos) {
+                    venda.setPrecoTotal(venda.getPrecoTotal() + produto.getPreco());
+                }
+            venda.setProdutos(produtos);
+            
+            
+            String mensagem = "";
+            HttpSession sessao = request.getSession();
+            
+            if (venda.getProdutos() == null || venda.getProdutos().size() == 0) {
+                out.println(
+                        "<script type='text/javascript'>"
+                                + "alert('É necessário selecionar pelo menos um produto.');"
+                                + "location.href='cadastrarVenda.jsp';"
                                 + "</script>"
-        );
+                );
+                return;
+            } else {
+                try {
+                    if (vdao.gravar(venda)) {
+                        mensagem = "Venda salva na base de dados!";
+                    } else {
+                        mensagem = "Falha ao salvar a venda na base de dados.";
+                    }
+                } catch (SQLException e) {
+                    mensagem = "Error: " + e.getMessage();
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            out.println(
+                    "<script type='text/javascript'>"
+                            + "alert('" + mensagem + "');"
+                                    + "location.href='gerenciarVenda?acao=listar';"
+                                    + "</script>"
+            );
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciarVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void exibirMensagem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         dispatcher = getServletContext().
-        getRequestDispatcher("/cadastrarVenda.jsp");
+                getRequestDispatcher("/cadastrarVenda.jsp");
         dispatcher.forward(request, response);
     }
-        
 
 }

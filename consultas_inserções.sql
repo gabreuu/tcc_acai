@@ -39,3 +39,4 @@ SELECT c.idCliente, a.idAtendimento, u.idUsuario, v.idVenda, v.dataVenda, v.prec
 cliente c ON c.idCliente = v.idCliente INNER JOIN 
 atendimento a ON a.idAtendimento = v.idAtendimento INNER JOIN 
 usuario u ON u.idUsuario = v.idUsuario;
+INSERT INTO `perfil_menu` (`idPerfil`, `idMenu`) VALUES ('1', '1'), ('1', '2'), ('1', '3'), ('1', '4'), ('1', '5'), ('1', '6'), ('1', '7'), ('1', '8');

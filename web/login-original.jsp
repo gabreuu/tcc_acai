@@ -46,27 +46,27 @@
                 }
                 
                 %>
-                <div class="container d-flex justify-content-center mt-5">
-                    <form id="formLogin" action="gerenciarLogin" method="post" class="form-group border rounded mx-auto">
-                        <h1 class="text-center mt-3 ml-3 mr-3">Açaí do Berê</h1>
-                        <h3 class="text-center mt-2 ml-3 mr-3">Faça login para prosseguir.</h3>
+                <div class="container">
+                    <form action="gerenciarLogin" method="post" class="form-group">
+                        <h3 class="text-center mt-5">Faça login para prosseguir.</h3>
                         
-                        <div class="form-group mt-5">
-                            <label class="col-md-2 offset-1">Usuário</label>
-                            <div class="col-md-10 offset-1">
-                                <input type="text" name="login" value="" placeholder="login do usuário" class="form-control">
+                        <div class="form-group row mt-5 offset-md-3">
+                            <label class="col-md-2">Usuário</label>
+                            <div class="col-md-5">
+                                <input type="text" name="login" value="" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-2 offset-1">Senha</label>
-                            <div class="col-md-10 offset-1">
-                                <input type="password" name="senha" value="" placeholder="senha do usuário" class="form-control">
+                        <div class="form-group row offset-md-3">
+                            <label class="col-md-2">Senha</label>
+                            <div class="col-md-5">
+                                <input type="password" name="senha" value="" class="form-control">
                             </div>
                         </div>
                         
-                        <div class="form-group mt-4">
-                            <div class="col-md-10 offset-1">
-                                <button class="btn btn-success btn-md form-control mb-3">Autenticar</button>
+                        <div class="form-group row offset-md-3">
+                            <label class="col-md-2"></label>
+                            <div class="col-md-5">
+                                <button class="btn btn-outline-success btn-md form-control">Autenticar</button>
                             </div>
                         </div>
                         

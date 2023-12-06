@@ -5,10 +5,13 @@
 package util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +19,7 @@ import java.util.logging.Logger;
 public abstract class Util {
     public static String decode(String text){
         try {
-            return java.net.URLDecoder.decode(java.net.URLEncoder.encode(text,"iso-8859-1"),"utf-8");
+                return java.net.URLDecoder.decode(java.net.URLEncoder.encode(text,"iso-8859-1"),"utf-8");
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
             return "";
@@ -44,4 +47,11 @@ public abstract class Util {
         data = df.format(pdata); // Converte a string para um objeto Date
         return data;
     }
+    // Método estático que formata um número como moeda
+    public static String formataPreco(double numero){
+    // Obtém uma instância de formatação de moeda para o idioma português do Brasil
+        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+    // Formata o número como uma representação de moeda e retorna como string
+        return formatoMoeda.format(numero);
+}
 }

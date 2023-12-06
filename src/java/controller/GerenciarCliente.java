@@ -91,8 +91,8 @@ public class GerenciarCliente extends HttpServlet {
         
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        
         String idCliente = request.getParameter("idCliente");
+        // Ajuste de caracteres especiais
         String nome = Util.decode(request.getParameter("nome"));
         String cpf = request.getParameter("cpf");
         String endereco = Util.decode(request.getParameter("endereco"));
@@ -104,6 +104,7 @@ public class GerenciarCliente extends HttpServlet {
         Cliente c = new Cliente();
         ClienteDAO cdao = new ClienteDAO();
 
+        // validações do lado do servidor e atribuição de valores.
         if(!idCliente.isEmpty()) {
             try {
                 c.setIdCliente(Integer.parseInt(idCliente));
@@ -113,20 +114,30 @@ public class GerenciarCliente extends HttpServlet {
         }
 
         if (nome.isEmpty() || nome.equals("")) {
-            sessao.setAttribute("msg", "É necessário inserir o nome do cliente.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('É necessário informar o nome do Cliente.');"
+                + "location.href='cadastrarCliente.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             c.setNome(nome);
         }
 
-        // atributo não obrigatório.
+        // atributos não obrigatórios não são validados se vazios.
         c.setCpf(cpf);
         c.setEndereco(endereco);
         c.setTelefone(telefone);
 
         if (status.isEmpty() || status.equals("")) {
-            sessao.setAttribute("msg", "Por favor, informe o status do cliente.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('O status do Cliente deve ser selecionado.');"
+                + "location.href='cadastrarCliente.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             try {
                 c.setStatus(Integer.parseInt(status));

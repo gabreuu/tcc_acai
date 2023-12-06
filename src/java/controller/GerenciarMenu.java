@@ -105,6 +105,7 @@ public class GerenciarMenu extends HttpServlet {
         Menu m = new Menu();
         MenuDAO mdao = new MenuDAO();
 
+        // validações do lado servidor e atribuição de valores.
         if(!idMenu.isEmpty()) {
             try {
                 m.setIdMenu(Integer.parseInt(idMenu));
@@ -117,7 +118,7 @@ public class GerenciarMenu extends HttpServlet {
             //sessao.setAttribute("msg", "Informe o nome do Menu!");
             out.println(
                 "<script type='text/javascript'>"
-                + "alert('Informe o nome do Menu!');"
+                + "alert('É necessário informar o nome do Menu.');"
                 + "location.href='cadastrarMenu.jsp';"
                 + "</script>"
             );
@@ -132,7 +133,7 @@ public class GerenciarMenu extends HttpServlet {
             //mensagem = "Informe o link do Menu!";
             out.println(
                 "<script type='text/javascript'>"
-                + "alert('Informe o link do Menu!');"
+                + "alert('Por favor, informe o link do Menu.');"
                 + "location.href='cadastrarMenu.jsp';"
                 + "</script>"
             );
@@ -166,7 +167,7 @@ public class GerenciarMenu extends HttpServlet {
             //mensagem = "Informe o status do Menu!";
             out.println(
                 "<script type='text/javascript'>"
-                + "alert('Informe o status do Menu!');"
+                + "alert('O status do Menu deve ser selecionado.');"
                 + "location.href='cadastrarMenu.jsp';"
                 + "</script>"
             );
@@ -182,9 +183,9 @@ public class GerenciarMenu extends HttpServlet {
 
         try {
             if (mdao.gravar(m)) {
-                mensagem = "Menu salvo na base de dados!";
+                mensagem = "O Menu foi salvo na base de dados!";
             } else {
-                mensagem = "Falha ao salvar o menu na base de dados!";
+                mensagem = "Falha ao salvar o Menu na base de dados.";
             }
         } catch (SQLException e) {
             mensagem = "Error: " + e.getMessage();

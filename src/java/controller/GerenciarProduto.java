@@ -114,7 +114,7 @@ public class GerenciarProduto extends HttpServlet {
         
         String idProduto = request.getParameter("idProduto");
         // Ajuste de caracteres especiais
-        String nome= Util.decode(request.getParameter("nome"));
+        String nome = Util.decode(request.getParameter("nome"));
         String descricao = Util.decode(request.getParameter("descricao"));
         String preco = request.getParameter("preco");
         String status = request.getParameter("status");
@@ -124,6 +124,7 @@ public class GerenciarProduto extends HttpServlet {
         Produto p = new Produto();
         ProdutoDAO pdao = new ProdutoDAO();
 
+        // validações do lado do servidor e atribuição de valores.
         if(!idProduto.isEmpty()) {
             try {
                 p.setIdProduto(Integer.parseInt(idProduto));
@@ -133,8 +134,13 @@ public class GerenciarProduto extends HttpServlet {
         }
 
         if (nome.isEmpty() || nome.equals("")) {
-            sessao.setAttribute("msg", "Por favor, informe o nome do Produto.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('É necessário informar o nome do Produto.');"
+                + "location.href='cadastrarProduto.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             p.setNome(nome);
         }
@@ -143,15 +149,25 @@ public class GerenciarProduto extends HttpServlet {
         p.setDescricao(descricao);
         
         if (preco.isEmpty() || preco.equals("")) {
-            sessao.setAttribute("msg", "É necessário informar o preço do produto.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('Deve ser informado o Preço do Produto.');"
+                + "location.href='cadastrarProduto.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
              p.setPreco(Double.parseDouble(preco));
         }
 
         if (status.isEmpty() || status.equals("")) {
-            sessao.setAttribute("msg", "Por favor, informe o status do produto.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('O status do Produto deve ser selecionado.');"
+                + "location.href='cadastrarProduto.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             try {
                 p.setStatus(Integer.parseInt(status));

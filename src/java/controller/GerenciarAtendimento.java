@@ -87,15 +87,28 @@ public class GerenciarAtendimento extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html");
+
         PrintWriter out = response.getWriter();
         String idAtendimento = request.getParameter("idAtendimento");
-        String tipoAtendimento = Util.decode(request.getParameter("tipoAtendimento"));
-        String tipoPagto = Util.decode(request.getParameter("tipoPagto"));
+        String tipoAtendimento;
+        String tipoPagto;
+        // verifica se o registro que está sendo salvo é novo ou edição
+        if(idAtendimento != null && !idAtendimento.isEmpty()){
+            // se for edição não é feita a conversão dos caracteres pois já estão vindo corretos
+            tipoAtendimento = request.getParameter("tipoAtendimento");
+            tipoPagto = request.getParameter("tipoPagto");
+        }else{
+            //se não for edição a conversão dos caracteres é feita
+            tipoAtendimento = Util.decode(request.getParameter("tipoAtendimento"));
+            tipoPagto = Util.decode(request.getParameter("tipoPagto"));
+        }
+        
         String status = request.getParameter("status");
         String mensagem = "";
         HttpSession sessao = request.getSession();
 
+        // validações do lado do servidor e atribuição de valores.
         if (!idAtendimento.isEmpty()) {
             try {
                 atendimento.setIdAtendimento(Integer.parseInt(idAtendimento));
@@ -105,38 +118,40 @@ public class GerenciarAtendimento extends HttpServlet {
         }
         
         if (tipoAtendimento.isEmpty() || tipoAtendimento.equals("")) {
-            sessao.setAttribute("msg", "Por favor, informe o tipo de atendimento.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('É necessário informar o tipo de Atendimento.');"
+                + "location.href='cadastrarAtendimento.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             atendimento.setTipoAtendimento(tipoAtendimento);
         }
 
         if (tipoPagto.isEmpty() || tipoPagto.equals("")) {
-            sessao.setAttribute("msg", "Por favor, informe a forma de pagamento.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('A Forma de Pagamento deve ser informada.');"
+                + "location.href='cadastrarAtendimento.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             atendimento.setTipoPagto(tipoPagto);
         }
 
         if (status.isEmpty() || status.equals("")) {
-            sessao.setAttribute("msg", "Por favor, informe o status do delivery.");
-            exibirMensagem(request, response);
+            out.println(
+                "<script type='text/javascript'>"
+                + "alert('O status do Atendimento deve ser selecionado.');"
+                + "location.href='cadastrarAtendimento.jsp';"
+                + "</script>"
+            );
+            return;
         } else {
             atendimento.setStatus(Integer.parseInt(status));
         }
-        
-//        if (idUsuario.isEmpty() || idUsuario.equals("")) {
-//            sessao.setAttribute("msg", "Por favor, informe o usuário associado.");
-//            exibirMensagem(request, response);
-//        } else {
-//            Usuario usuario = new Usuario();
-//            try {
-//                usuario.setIdUsuario(Integer.parseInt(idUsuario));
-//                delivery.setUsuario(usuario);
-//            } catch (NumberFormatException e) {
-//                mensagem = "Error" + e.getMessage();
-//            }   
-//        }
 
         try {
             if (adao.gravar(atendimento)) {

@@ -28,11 +28,12 @@ import util.Util;
 
 @WebServlet(name = "gerenciarAdicaoProdutoVenda", urlPatterns = {"/gerenciarAdicaoProdutoVenda"})
 public class GerenciarAdicaoProdutoVenda extends HttpServlet {
+
     VendaDAO vdao = null;
     Cliente cliente = null;
     Atendimento atendimento = null;
     Venda venda = null;
-    
+
     RequestDispatcher dispatcher = null;
 
     @Override
@@ -52,7 +53,7 @@ public class GerenciarAdicaoProdutoVenda extends HttpServlet {
 
         venda = new Venda();
         vdao = new VendaDAO();
-        
+
         RequestDispatcher dispatcher
                 = getServletContext().getRequestDispatcher("/cadastrarVenda.jsp");
 
@@ -66,6 +67,14 @@ public class GerenciarAdicaoProdutoVenda extends HttpServlet {
             Produto p = new Produto();
             ProdutoDAO pdao = new ProdutoDAO();
             PrintWriter out = response.getWriter();
+            String idVenda = request.getParameter("idVenda");
+            // Ajuste de caracteres especiais
+            String dataVenda = request.getParameter("dataVenda");
+            String status = request.getParameter("status");
+            String idUsuario = request.getParameter("idUsuario");
+            String idCliente = request.getParameter("idCliente");
+            String idAtendendimento = request.getParameter("idAtendimento");
+            
             response.setContentType("text/html");
 
             ArrayList<Produto> produtos;
@@ -85,25 +94,93 @@ public class GerenciarAdicaoProdutoVenda extends HttpServlet {
                     Logger.getLogger(GerenciarAdicaoProdutoVenda.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
             Venda venda = new Venda();
-            if (request.getParameter("idVenda") != null && !request.getParameter("idVenda").equalsIgnoreCase("")) {
-                venda.setIdVenda(Integer.parseInt(request.getParameter("idVenda")));
+//            if (request.getParameter("idVenda") != null && !request.getParameter("idVenda").equalsIgnoreCase("")) {
+//                venda.setIdVenda(Integer.parseInt(request.getParameter("idVenda")));
+//            }
+            
+            String mensagem = "";
+            if (!idVenda.isEmpty()) {
+                try {
+                    venda.setIdVenda(Integer.parseInt(idVenda));
+                } catch (NumberFormatException e) {
+                    mensagem = "Error" + e.getMessage();
+                }
             }
-            venda.setDataVenda(Util.stringToDate(request.getParameter("dataVenda")));
+
+            if (dataVenda.isEmpty() || dataVenda.equals("")) {
+                out.println(
+                        "<script type='text/javascript'>"
+                        + "alert('Por favor, informe uma data válida.');"
+                        + "location.href='cadastrarVenda.jsp';"
+                        + "</script>"
+                );
+                return;
+            } else {
+                venda.setDataVenda(Util.stringToDate(dataVenda));
+            }
+
+            // o preço total é calculado e enviado automaticamente
             venda.setPrecoTotal(Double.parseDouble(request.getParameter("precoTotal")));
-            venda.setStatus(Integer.parseInt(request.getParameter("status")));
-            ClienteDAO cdao = new ClienteDAO();
+
+            if (status.isEmpty() || status.equals("")) {
+                out.println(
+                        "<script type='text/javascript'>"
+                        + "alert('É necessário definir o status da venda primeiro.');"
+                        + "location.href='cadastrarVenda.jsp';"
+                        + "</script>"
+                );
+                return;
+            } else {
+                venda.setStatus(Integer.parseInt(status));
+            }
+
             UsuarioDAO udao = new UsuarioDAO();
-            AtendimentoDAO adao = new AtendimentoDAO();
+            // associação MUITOS para UM entre venda e usuario (com função de atendente) respectivamente
+            if (idUsuario.isEmpty() || idUsuario.equals("")) {
+                out.println(
+                        "<script type='text/javascript'>"
+                        + "alert('Informe o responsável pelo atendimento.');"
+                        + "location.href='cadastrarVenda.jsp';"
+                        + "</script>"
+                );
+                return;
+            } else {
+                venda.setUsuario(udao.getCarregarPorId(Integer.parseInt(idUsuario)));
+            }
+
+            ClienteDAO cdao = new ClienteDAO();
             // associação MUITOS para UM entre venda e cliente respectivamente
-            venda.setCliente(cdao.getCarregarPorId(Integer.parseInt(request.getParameter("idCliente"))));
+            if (idCliente.isEmpty() || idCliente.equals("")) {
+                out.println(
+                        "<script type='text/javascript'>"
+                        + "alert('Por favor, informe o cliente.');"
+                        + "location.href='cadastrarVenda.jsp';"
+                        + "</script>"
+                );
+                return;
+            } else {
+                venda.setCliente(cdao.getCarregarPorId(Integer.parseInt(idCliente)));
+            }
+
+            AtendimentoDAO adao = new AtendimentoDAO();
             // associação MUITOS para UM entre venda e atendimento respectivamente
-            venda.setAtendimento(adao.getCarregarPorId(Integer.parseInt(request.getParameter("idAtendimento"))));
-            // associação MUITOS para UM entre venda e usuario respectivamente
-            venda.setUsuario(udao.getCarregarPorId(Integer.parseInt(request.getParameter("idUsuario"))));
+            if (idAtendendimento.isEmpty() || idAtendendimento.equals("")) {
+                out.println(
+                        "<script type='text/javascript'>"
+                        + "alert('Por favor, selecione uma modalidade de atendimento.');"
+                        + "location.href='cadastrarVenda.jsp';"
+                        + "</script>"
+                );
+                return;
+            } else {
+                venda.setAtendimento(adao.getCarregarPorId(Integer.parseInt(idAtendendimento)));
+            }
+
             // associação MUITOS para MUITOS entre venda e produto respectivamente (muitas vendas tem muitos produtos);
             venda.setProdutos(produtos);
-            
+
             RequestDispatcher dispatcher
                     = getServletContext().getRequestDispatcher("/cadastrarVenda.jsp");
 

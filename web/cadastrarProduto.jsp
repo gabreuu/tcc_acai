@@ -22,7 +22,7 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
                     <%
                         HttpSession sessao = request.getSession();
                         if (sessao.getAttribute("msg") != null) {
@@ -46,30 +46,41 @@
 
                     %>
                     <div class="container">
-                        <form action="gerenciarProduto?acao=cadastrar" method="post" class="form-group">
-                            <h3 class="text-center mt-5">Cadastro de Produto</h3>
+                        <form id="formLogin" action="gerenciarProduto?acao=cadastrar" method="post" class="form-group border rounded mx-auto mt-5">
                             <input type="hidden" name="idProduto" value="${produto.idProduto}">
+                            <c:choose>
+                                <c:when test="${produto.idProduto == NULL}">
+                                    <h3 class="text-center mt-2">Cadastro de Produto</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3 class="text-center  mt-2">Alteração do Produto ${produto.nome}</h3>
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="form-group row mt-5 offset-md-2">
-                                <label class="col-md-3">Nome</label>
+                                <label class="col-md-2 offset-1">Nome<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="text" name="nome" value="${produto.nome}" class="form-control">
                                 </div>
                             </div>
+                                
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Descrição</label>
+                                <label class="col-md-2 offset-1">Descrição</label>
                                 <div class="col-md-5">
                                     <textarea name="descricao" value="${produto.descricao}" class="form-control"></textarea>
                                 </div>
                             </div>
+                                
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Preço</label>
+                               <label class="col-md-2 offset-1">Preço (R$)<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
-                                    <input type="text" name="preco" value="${produto.preco}" class="form-control">
+                                <!-- Cria um campo de entrada de texto para o preço do produto em R$ -->
+                                <input type="text" name="preco" value="${produto.preco}" onkeyup="mascaraDinheiro(this)" class="form-control">
                                 </div>
                             </div>
+                                
                             <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Status</label>
+                                <label class="col-md-2 offset-1">Status<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
@@ -82,26 +93,26 @@
                                                     selected
                                                 </c:if>>Desativado</option>
                                     </select>
-
                                 </div>
                             </div>
-                            <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                                <button class="btn btn-primary mr-3">Gravar</button>
+                                
+                            <div class="form-group row offset-md-2">
                                 <a href="gerenciarProduto?acao=listar" 
-                                   class="btn  btn-warning" role="button">Voltar
+                                       class="btn  btn-outline-danger form-control col-md-2 offset-1" role="button">Voltar
                                 </a>
-                            </div>
-
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary form-control col-md-12">Gravar</button>
+                                </div>
+                            </div>                                
                         </form>
-
                     </div>
-
                 </div><!-- Fim da div conteudo -->
             </main>
         </div><!-- Fim da div container -->
 
     </body>
     <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/script.js"></script>
     <script src="bootstrap/bootstrap.min.js"></script>
 
 </html>

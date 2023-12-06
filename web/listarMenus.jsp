@@ -23,11 +23,17 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
-                        <div class="container">
-                            <h3 class="text-center mt-5">Listagem de Menus</h3>
-                            <a href="cadastrarMenu.jsp" class="btn-sm btn-primary mb-5" 
-                               role="button" style="text-decoration: none;display:inline-block;">Cadastrar Menus</a>
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
+                        <div id="formLogin" class="container border rounded mx-auto mt-5">
+                            <h3 class="text-center mt-2">Listagem de Menus</h3>
+                            <div>
+                                <a href="cadastrarMenu.jsp" class="btn-sm btn-primary mb-3" 
+                               role="button" style="text-decoration: none;display:inline-block;">Cadastrar Menu</a>
+                              
+                                <a href="index.jsp" class="btn-sm btn-outline-danger"
+                                   role="button" style="text-decoration: none;display:inline-block;">Voltar</a>
+                            </div>
+
                             <table class="table table-hover table-striped table-bordered mt-3" id="listarMenus">
                                 <thead>
                                     <tr class="thead-dark">
@@ -98,11 +104,6 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-                        <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                            <a href="index.jsp" 
-                               class="btn  btn-warning" role="button">Voltar
-                            </a>
-                        </div>
                     </div>
                 </div><!-- Fim da div conteudo -->
             </main>

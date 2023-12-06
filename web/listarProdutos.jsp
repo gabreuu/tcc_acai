@@ -23,11 +23,17 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
-                        <div class="container">
-                            <h3 class="text-center mt-5">Listagem de Produtos</h3>
-                            <a href="cadastrarProduto.jsp" class="btn-sm btn-primary mb-5" 
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
+                        <div id="formLogin" class="container border rounded mx-auto mt-5">
+                            <h3 class="text-center mt-2">Listagem de Produtos</h3>
+                            <div>
+                                <a href="cadastrarProduto.jsp" class="btn-sm btn-primary mb-3" 
                                role="button" style="text-decoration: none;display:inline-block;">Cadastrar Produto</a>
+
+                                <a href="index.jsp" class="btn-sm btn-outline-danger"
+                                   role="button" style="text-decoration: none;display:inline-block;">Voltar</a>
+                            </div>
+                            
                             <table class="table table-hover table-striped table-bordered mt-3" id="listarProdutos">
                                 <thead>
                                     <tr class="thead-dark">
@@ -45,7 +51,8 @@
                                         <td>${p.idProduto}</td>
                                         <td>${p.nome}</td>
                                         <td>${p.descricao}</td>
-                                        <td>${p.preco}</td>
+                                        <!-- Exibe o preco formatado na atabela-->
+                                        <td>${p.precoFormatado}</td>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${p.status == 1}">
@@ -88,11 +95,6 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-                        <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                            <a href="index.jsp" 
-                               class="btn  btn-warning" role="button">Voltar
-                            </a>
-                        </div>
                     </div>
                 </div><!-- Fim da div conteudo -->
             </main>

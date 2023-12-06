@@ -28,11 +28,17 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
-                        <div class="container">
-                            <h3 class="text-center mt-5">Listagem de Vendas</h3>
-                            <a href="cadastrarVenda.jsp" class="btn-sm btn-primary mb-5" 
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
+                        <div id="formLogin" class="container border rounded mx-auto mt-5">
+                            <h3 class="text-center mt-2">Listagem de Vendas</h3>
+                            <div>
+                                <a href="cadastrarVenda.jsp" class="btn-sm btn-primary mb-3" 
                                role="button" style="text-decoration: none;display:inline-block;">Cadastrar Venda</a>
+                               
+                               <a href="index.jsp" class="btn-sm btn-outline-danger"
+                                   role="button" style="text-decoration: none;display:inline-block;">Voltar</a>
+                            </a>
+                            </div>
                             <table class="table table-hover table-striped table-bordered mt-5" id="listarVendas">
                                 <thead>
                                     <tr class="thead-dark">
@@ -48,23 +54,30 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${vendas}" var="v">
-                                    <tr>
-                                        <td>${v.idVenda}</td>
-                                        <td><fmt:formatDate pattern="dd/MM/yyyy" value="${v.dataVenda}"></fmt:formatDate></td>
-                                        <td>${v.precoTotal}</td>
-                                        <td>${v.cliente.nome}</td>
-                                        <td>${v.usuario.nome}</td>
-                                        <td>${v.atendimento.tipoAtendimento} no ${v.atendimento.tipoPagto}</td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${v.status == 1}">
-                                                    Ativado
-                                                </c:when>
-                                                <c:otherwise>
-                                                    Desativado
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
+    <tr>
+        <!-- Exibe o ID da venda -->
+        <td>${v.idVenda}</td>
+        <!-- Formata e exibe a data da venda no formato "dd/MM/yyyy" -->
+        <td><fmt:formatDate pattern="dd/MM/yyyy" value="${v.dataVenda}"></fmt:formatDate></td>
+        <!-- Exibe o preço total formatado da venda -->
+        <td>${v.precoTotalFormatado}</td>
+        <!-- Exibe o nome do cliente associado à venda -->
+        <td>${v.cliente.nome}</td>
+        <!-- Exibe o nome do usuário associado à venda -->
+        <td>${v.usuario.nome}</td>
+        <!-- Exibe o tipo de atendimento e pagamento associados à venda -->
+        <td>${v.atendimento.tipoAtendimento} no ${v.atendimento.tipoPagto}</td>
+        <!-- Exibe o status da venda, ativado ou desativado -->
+        <td>
+            <c:choose>
+                <c:when test="${v.status == 1}">
+                    Ativado
+                </c:when>
+                <c:otherwise>
+                    Desativado
+                </c:otherwise>
+            </c:choose>
+        </td>
                                         <td>
                                             <script type="text/javascript">
                                                 function confirmDesativar(id) {
@@ -97,12 +110,6 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-
-                        <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                            <a href="index.jsp" 
-                               class="btn  btn-warning" role="button">Voltar
-                            </a>
-                        </div>
                     </div>
 
                 </div><!-- Fim da div conteudo -->

@@ -32,5 +32,10 @@ public class Venda {
         else
             return Util.dateToString(new Date());
     }
+    // Método que retorna o preço total formatado
+public String getPrecoTotalFormatado(){
+    // Utiliza a classe Util para formatar o preço total
+    return Util.formataPreco(precoTotal);
+}
     //private ArrayList<Menu> naoProdutos;
 }
