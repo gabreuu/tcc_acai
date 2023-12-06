@@ -79,15 +79,15 @@
                                                 }
                                             </script>
                                             <a href="gerenciarUsuario?acao=alterar&idUsuario=${u.idUsuario}" 
-                                               class="btn btn-primary btn-sm" role="button">Alterar</a>
+                                               class="btn btn-primary btn-sm col-md-5" role="button">Alterar</a>
                                             <c:choose>
                                                 <c:when test="${u.status == 1}">
-                                                    <a class="btn btn-outline-danger btn-sm" role="button"
+                                                    <a class="btn btn-outline-danger btn-sm col-md-6" role="button"
                                                        onclick="confirmDesativar('${u.idUsuario}', '${u.nome}')">Desativar</a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="btn btn-outline-success btn-sm" role="button"
-                                                       onclick="confirmAtivar('${u.idUsuario}', '${u.nome}')">Ativar &nbsp &nbsp &nbsp</a>
+                                                    <a class="btn btn-outline-success btn-sm col-md-6" role="button"
+                                                       onclick="confirmAtivar('${u.idUsuario}', '${u.nome}')">Ativar</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

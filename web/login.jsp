@@ -54,13 +54,13 @@
                         <div class="form-group mt-5">
                             <label class="col-md-2 offset-1">Usuário</label>
                             <div class="col-md-10 offset-1">
-                                <input type="text" name="login" value="" placeholder="login do usuário" class="form-control">
+                                <input type="text" name="login" value="" placeholder="login do usuário" class="form-control" autocomplete="off" autofocus="true">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 offset-1">Senha</label>
                             <div class="col-md-10 offset-1">
-                                <input type="password" name="senha" value="" placeholder="senha do usuário" class="form-control">
+                                <input type="password" name="senha" value="" placeholder="senha do usuário" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         

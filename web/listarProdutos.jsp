@@ -79,15 +79,15 @@
                                                 }
                                             </script>
                                             <a href="gerenciarProduto?acao=alterar&idProduto=${p.idProduto}" 
-                                               class="btn btn-primary btn-sm" role="button">Alterar</a>
+                                               class="btn btn-primary btn-sm col-md-12" role="button">Alterar</a>
                                             <c:choose>
                                                 <c:when test="${p.status == 1}">
-                                                    <a class="btn btn-outline-danger btn-sm" role="button"
+                                                    <a class="btn btn-outline-danger btn-sm col-md-12 mt-1" role="button"
                                                        onclick="confirmDesativar('${p.idProduto}', '${p.nome}')">Desativar</a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="btn btn-outline-success btn-sm" role="button"
-                                                       onclick="confirmAtivar('${p.idProduto}', '${p.nome}')">Ativar &nbsp &nbsp &nbsp</a>
+                                                    <a class="btn btn-outline-success btn-sm col-md-12 mt-1" role="button"
+                                                       onclick="confirmAtivar('${p.idProduto}', '${p.nome}')">Ativar</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

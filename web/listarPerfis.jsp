@@ -82,20 +82,20 @@
                                                 }
                                             </script>
                                             <a href="gerenciarPerfil?acao=alterar&idPerfil=${p.idPerfil}" 
-                                               class="btn btn-primary btn-sm" role="button">Alterar</a>
+                                               class="btn btn-primary btn-sm col-md-3" role="button">Alterar</a>
                                             <c:choose>
                                                 <c:when test="${p.status == 1}">
-                                                    <a class="btn btn-outline-danger btn-sm" role="button"
+                                                    <a class="btn btn-outline-danger btn-sm col-md-4" role="button"
                                                        onclick="confirmDesativar('${p.idPerfil}', '${p.nome}')">Desativar</a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="btn btn-outline-success btn-sm" role="button"
-                                                       onclick="confirmAtivar('${p.idPerfil}', '${p.nome}')">Ativar &nbsp &nbsp &nbsp</a>
+                                                    <a class="btn btn-outline-success btn-sm col-md-4" role="button"
+                                                       onclick="confirmAtivar('${p.idPerfil}', '${p.nome}')">Ativar</a>
                                                 </c:otherwise>
                                             </c:choose>
 
                                             <a href="gerenciarMenuPerfil?acao=vincular&idPerfil=${p.idPerfil}"
-                                               class="btn btn-dark btn-sm" role="button">Vincular</a>
+                                               class="btn btn-dark btn-sm col-md-4" role="button">Vincular</a>
                                         </td>
                                     </tr>
                                 </c:forEach>

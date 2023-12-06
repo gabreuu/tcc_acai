@@ -61,7 +61,7 @@
                             <div class="form-group row mt-5 offset-md-2">
                                 <label class="col-md-2 offset-1">Nome do Cliente<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
-                                    <input type="text" name="nome" value="${cliente.nome}" class="form-control">
+                                    <input type="text" name="nome" value="${cliente.nome}" class="form-control" autofocus="true">
                                 </div>
                             </div>  
                                 
@@ -92,7 +92,7 @@
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
-                                        <option value="1"
+                                        <option value="1" selected
                                                 <c:if test="${cliente.status == 1}">
                                                     selected
                                                 </c:if>>Ativado</option>

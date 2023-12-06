@@ -77,15 +77,15 @@
                                                 }
                                             </script>
                                             <a href="gerenciarAtendimento?acao=alterar&idAtendimento=${a.idAtendimento}" 
-                                               class="btn btn-primary btn-sm" role="button">Alterar</a>
+                                               class="btn btn-primary btn-sm col-md-5" role="button">Alterar</a>
                                             <c:choose>
                                                 <c:when test="${a.status == 1}">
-                                                    <a class="btn btn-outline-danger btn-sm" role="button"
+                                                    <a class="btn btn-outline-danger btn-sm col-md-6" role="button"
                                                        onclick="confirmDesativar('${a.idAtendimento}')">Desativar</a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="btn btn-outline-success btn-sm" role="button"
-                                                       onclick="confirmAtivar('${a.idAtendimento}')">Ativar &nbsp &nbsp &nbsp</a>
+                                                    <a class="btn btn-outline-success btn-sm col-md-6" role="button"
+                                                       onclick="confirmAtivar('${a.idAtendimento}')">Ativar</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

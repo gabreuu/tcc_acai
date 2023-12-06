@@ -48,17 +48,17 @@
                             <input type="hidden" name="idMenu" value="${menu.idMenu}">
                             <c:choose>
                                 <c:when test="${menu.idMenu == NULL}">
-                                    <h3 class="text-center  mt-1">Cadastro de Menu</h3>
+                                    <h3 class="text-center  mt-2">Cadastro de Menu</h3>
                                 </c:when>
                                 <c:otherwise>
-                                    <h3 class="text-center  mt-1">Alteração do Menu ${menu.nome}</h3>
+                                    <h3 class="text-center  mt-2">Alteração do Menu ${menu.nome}</h3>
                                 </c:otherwise>
                             </c:choose>
 
                             <div class="form-group row mt-5 offset-md-2">
                                 <label class="col-md-2 offset-1">Nome<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
-                                    <input type="text" name="nome" value="${menu.nome}" class="form-control">
+                                    <input type="text" name="nome" value="${menu.nome}" class="form-control" autofocus="true">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">
@@ -72,7 +72,7 @@
                                 <div class="col-md-5">
                                     <select class="form-control" name="exibir">
                                         <option value="">Escolha uma opção</option>
-                                        <option value="1"
+                                        <option value="1" selected
                                                 <c:if test="${menu.exibir == 1}">
                                                     selected
                                                 </c:if>>Sim</option>
@@ -89,7 +89,7 @@
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
-                                        <option value="1"
+                                        <option value="1" selected
                                                 <c:if test="${menu.status == 1}">
                                                     selected
                                                 </c:if>>Ativado</option>

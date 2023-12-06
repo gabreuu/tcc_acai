@@ -88,15 +88,15 @@
                                                 }
                                             </script>
                                             <a href="gerenciarMenu?acao=alterar&idMenu=${m.idMenu}" 
-                                               class="btn btn-primary btn-sm" role="button">Alterar</a>
+                                               class="btn btn-primary btn-sm col-md-5" role="button">Alterar</a>
                                             <c:choose>
                                                 <c:when test="${m.status == 1}">
-                                                    <a class="btn btn-outline-danger btn-sm" role="button"
+                                                    <a class="btn btn-outline-danger btn-sm col-md-6" role="button"
                                                        onclick="confirmDesativar('${m.idMenu}', '${m.nome}')">Desativar</a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="btn btn-outline-success btn-sm" role="button"
-                                                       onclick="confirmAtivar('${m.idMenu}', '${m.nome}')">Ativar &nbsp &nbsp &nbsp</a>
+                                                    <a class="btn btn-outline-success btn-sm col-md-6" role="button"
+                                                       onclick="confirmAtivar('${m.idMenu}', '${m.nome}')">Ativar</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

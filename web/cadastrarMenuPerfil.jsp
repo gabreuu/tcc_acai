@@ -25,21 +25,14 @@
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
                 <main>
-                    <div id="conteudo" class="bg-background">
+                    <div id="conteudo" class="bg-background border rounded mx-auto">
                         <div class="container">
-                            <form action="gerenciarMenuPerfil?acao=cadastrar" method="post" class="form-group">
-                                <h3 class="text-center">Vinculação de Menus</h3>
+                            <form id="formLogin" action="gerenciarMenuPerfil?acao=cadastrar" method="post" class="form-group border rounded mx-auto mt-5">
+                                <h3 class="text-center mt-2">Vinculação de Menus ao Perfil ${perfilv.nome}</h3>
                                 <input type="hidden" name="idPerfil" value="${perfilv.idPerfil}">
-
-                            <div class="form-group row mt-5 offset-md-2">
-                                <label class="col-md-3">Nome</label>
-                                <div class="col-md-5">
-                                    <input type="text" name="nome" value="${perfilv.nome}" class="form-control"
-                                           readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row offset-md-2">
-                                <label class="col-md-3">Menu</label>
+                                
+                            <div class="form-group row offset-md-2 mt-5">
+                                <label class="col-md-2 offset-1">Menu</label>
                                 <div class="col-md-5">
                                     <select class="form-control"name="idMenu">
                                         <option value="">Escolha um menu</option>
@@ -50,15 +43,18 @@
 
                                 </div>
                             </div>
-                            <div class="d-md-flex justify-content-md-end mt-5 mr-5">
-                                <button class="btn btn-primary btn-sm mr-2">Vincular</button>
+                                           
+                            <div class="form-group row offset-md-2">
                                 <a href="gerenciarPerfil?acao=listar" 
-                                   class="btn  btn-danger btn-sm" role="button">Listar Perfis
+                                   class="btn  btn-outline-danger form-control col-md-2 offset-1" role="button">Voltar
                                 </a>
+                                
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary form-control col-md-12">Vincular</button>
+                                </div>
                             </div>
-
-                        </form>
-                        <h3 class="text-center">Listagem de Menu Perfil</h3>
+                        
+                        <h3 class="text-center mt-5">Listagem de Menus já associados</h3>
                         <table class="table table-hover table-striped table-bordered mt-3" id="listarPerfis">
                             <thead>
                                 <tr class="thead-dark">
@@ -112,7 +108,7 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-
+                        </form>
                     </div>
 
                 </div><!-- Fim da div conteudo -->
@@ -134,7 +130,7 @@
                                                                 "lengthMenu": [[5, 10, 20, 25, -1], [5, 10, 20, 25, "Todos"]],
                                                                 "oLanguage": {
                                                                     "sProcessing": "Processando",
-                                                                    "sLenghtMenu": "Montrar _MENU_ registros",
+                                                                    "sLengthMenu": "Mostrar _MENU_ registros",
                                                                     "sZeroRecords": "Não foram encontrados resultados",
                                                                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
                                                                     "sInfoEmpty": "Monstrado de 0 até 0 de 0 registros",

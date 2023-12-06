@@ -70,7 +70,7 @@
                                 <label class="col-md-2 offset-1">Data da Venda<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
                                     <input type="date" name="dataVenda" 
-                                           class="form-control" value="${venda.dataVendaString}">
+                                           class="form-control" value="${venda.dataVendaString}" autofocus="true">
                                 </div>
                             </div>
                             <c:set var="total" value="0" ></c:set>
@@ -82,7 +82,7 @@
                                 <div class="col-md-5">
                                     <select class="form-control" name="status">
                                         <option value="">Escolha uma opção</option>
-                                        <option value="1"
+                                        <option value="1" selected
                                                 <c:if test="${venda.status == 1}">
                                                     selected
                                                 </c:if>>Ativado</option>

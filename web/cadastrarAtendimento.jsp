@@ -62,7 +62,7 @@
                             <div class="form-group row mt-5 offset-md-2">
                                 <label class="col-md-2 offset-1">Atendimento<sup class="text-danger">*</sup></label>
                                 <div class="col-md-5">
-                                    <input type="text" name="tipoAtendimento" value="${atendimento.tipoAtendimento}" class="form-control">
+                                    <input type="text" name="tipoAtendimento" value="${atendimento.tipoAtendimento}" class="form-control" autofocus="true">
                                 </div>
                             </div>
                             <div class="form-group row offset-md-2">

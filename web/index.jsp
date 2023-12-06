@@ -24,7 +24,7 @@
     </head>
     <body>
         <div id="container">
-
+            
             <div id="menu">
                 <jsp:include page="template/menu.jsp"></jsp:include>
                 </div><!-- Fim da div menu -->
@@ -33,11 +33,17 @@
                 <main>
                     <div id="conteudo" class="bg-background border rounded mx-auto">
                         <div id="formLogin" class="container border rounded mx-auto mt-5">
+                        </div>   
+                        <h3 class="text-center mt-2">Sistema de Gerenciamento</h3>
+                        <div>
+                            <img src="<%= request.getContextPath()%>/imagens/fundo.svg" width="100%" height="100%" alt="imagem de Fundo"/>
                         </div>
                 </div><!-- Fim div conteudo -->
+                
             </main>
+                
         </div><!-- Fim div container -->
-
+        
     </body>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="bootstrap/bootstrap.min.js"></script>

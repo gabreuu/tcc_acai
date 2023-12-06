@@ -27,7 +27,6 @@ body{
 }
 
 #container{
-    background-color: red; 
     margin: 0 auto;
     width: 100%;
     height: 100%;
@@ -63,7 +62,7 @@ body{
 }
 
 main{
-    background-color: green; 
+    background:linear-gradient(180deg, #ffffff, #ffffff, #990099);
     min-height: 100%;
     height: auto;
 }
